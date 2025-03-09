@@ -2,7 +2,7 @@
 
 This script migrates the settings and database from Overseerr to Jellyseerr. It is intended for Plex users who have been using Overseerr and want to switch to Jellyseerr without losing data. As the database structure of Overseerr and Jellyseerr are a bit different, it is unfortunately not possible to simply copy the database file from Overseerr to Jellyseerr. 
 
-The script will migrate your settings, media, users and requests from Overseerr to the Jellyseerr by populating the Jellyseerr `settings.json` file with the values from Overseerr and injecting the data records from the `user`, `media`, `media_request`, `season` and `season_request` tables from the Overseerr database into the according tables in the Jellyseerr database.
+The script will migrate your settings, media, users, requests and issues from Overseerr to the Jellyseerr by populating the Jellyseerr `settings.json` file with the values from Overseerr and injecting the data records from the `user`, `media`, `media_request`, `season`, `season_request`, `issue` and `issue_comment` tables from the Overseerr database into the according tables in the Jellyseerr database.
 
 1. Clone this repository or set up the the directory structure manually as shown below.
 2. Install Jellyseerr. You don't need to configure it.
