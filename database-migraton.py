@@ -12,7 +12,7 @@ jellyseerr_db_path = os.path.join(jellyseerr_config_path, 'db', 'db.sqlite3')
 overseerr_json = os.path.join(overseerr_config_path, 'settings.json')
 jellyseerr_json = os.path.join(jellyseerr_config_path, 'settings.json')
 
-tables = ['user', 'media', 'media_request', 'season', 'season_request']
+tables = ['user', 'media', 'media_request', 'season', 'season_request', 'issue', 'issue_comment']
 
 def backup_configs():
     backup_folder = './backup'
