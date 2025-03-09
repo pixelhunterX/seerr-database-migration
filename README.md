@@ -22,7 +22,7 @@ This script migrates the settings and database from Overseerr to Jellyseerr. It 
     │   └── db.sqlite3-wal #
     └── settings.json
 ```
-4. Run the following command to migrate the database:
+5. Run the following command to migrate the database:
 ```bash
 python3 database-migration.py
 ```
