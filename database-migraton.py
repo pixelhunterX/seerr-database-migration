@@ -12,7 +12,7 @@ jellyseerr_db_path = os.path.join(jellyseerr_config_path, 'db', 'db.sqlite3')
 overseerr_json = os.path.join(overseerr_config_path, 'settings.json')
 jellyseerr_json = os.path.join(jellyseerr_config_path, 'settings.json')
 
-tables = ['user', 'media', 'media_request', 'season', 'season_request', 'issue', 'issue_comment']
+tables = ['user', 'media', 'media_request', 'season', 'season_request', 'issue', 'issue_comment', 'user_push_subscription', 'user_settings']
 
 def backup_configs():
     backup_folder = './backup'
@@ -90,14 +90,30 @@ with sqlite3.connect(overseerr_db_path) as src_conn, sqlite3.connect(jellyseerr_
 
         column_names = [description[0] for description in src_cursor.description]
         
-        placeholders = ', '.join(['?'] * len(column_names))
-        columns = ', '.join(column_names)
-        
-        insert_query = f'INSERT INTO {table} ({columns}) VALUES ({placeholders})'
-        dst_cursor.executemany(insert_query, rows)
-        dst_conn.commit()
-
-        print(f'Migrated {len(rows)} data records in table {table}.')
+        if table == 'user_settings':
+            # Handle column mismatches for user_settings
+            dst_cursor.execute("PRAGMA table_info(user_settings)")
+            dest_cols_info = dst_cursor.fetchall()
+            dest_columns = [info[1] for info in dest_cols_info]
+            common_columns = [col for col in dest_columns if col in column_names]
+            placeholders = ', '.join(['?'] * len(common_columns))
+            columns_list = ', '.join(common_columns)
+            new_rows = []
+            for row in rows:
+                row_dict = dict(zip(column_names, row))
+                new_row = tuple(row_dict[col] for col in common_columns)
+                new_rows.append(new_row)
+            insert_query = f'INSERT INTO {table} ({columns_list}) VALUES ({placeholders})'
+            dst_cursor.executemany(insert_query, new_rows)
+            dst_conn.commit()
+            print(f'Migrated {len(new_rows)} data records in table {table}.')
+        else:
+            placeholders = ', '.join(['?'] * len(column_names))
+            columns = ', '.join(column_names)
+            insert_query = f'INSERT INTO {table} ({columns}) VALUES ({placeholders})'
+            dst_cursor.executemany(insert_query, rows)
+            dst_conn.commit()
+            print(f'Migrated {len(rows)} data records in table {table}.')
 
     dst_cursor.execute('PRAGMA foreign_keys = ON')
 
