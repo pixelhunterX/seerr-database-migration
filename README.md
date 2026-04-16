@@ -1,3 +1,10 @@
+> [!WARNING]
+> Do NOT use the script for migration from Overseerr to Seerr as the migration is already handled by Seerr internally. Using this script may BREAK your setup!
+>
+> It is ONLY intended for migration from Overseerr to Jellyseerr but as both are deprecated, you should consider switching to Seerr. Please follow the official migration guide:
+> https://docs.seerr.dev/migration-guide
+
+
 # Migrate Overseerr settings and database to Jellyseerr
 
 This script migrates the settings and database from Overseerr to Jellyseerr. It is intended for Plex users who have been using Overseerr and want to switch to Jellyseerr without losing data. As the database structure of Overseerr and Jellyseerr are a bit different, it is unfortunately not possible to simply copy the database file from Overseerr to Jellyseerr. 
